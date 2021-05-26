@@ -3,18 +3,38 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.1.2",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "algebra-latex": "^2.0.3",
+    "antd": "^4.15.5",
+    "craco-less": "^1.17.1",
+    "desmos": "^1.5.4",
+    "install": "^0.13.0",
+    "layout": "^2.2.0",
+    "mathjs": "^9.4.0",
+    "multiregress": "^1.0.0",
+    "node-menu": "^1.3.0",
+    "npm": "^7.13.0",
     "react": "^17.0.2",
+    "react-antd-sider-menus": "^0.1.2",
     "react-dom": "^17.0.2",
+    "react-mathquill": "^1.0.1",
+    "react-router-apply-middleware": "0.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-router-relative-link": "^4.0.2",
+    "react-router-relative-links": "^0.1.0",
     "react-scripts": "4.0.3",
+    "recharts": "^2.0.9",
+    "regression": "^2.0.1",
+    "swagger-ui-express": "^4.1.6",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -34,5 +54,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint-plugin-react": "^7.23.2"
   }
 }
