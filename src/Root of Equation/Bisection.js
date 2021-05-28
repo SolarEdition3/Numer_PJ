@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import '../App.less'
 import { Button, Table } from 'antd'
+import apis from '../APIindex'
 const math = require('mathjs')
 
-const data = [];
+
+var dataSource = [];
 
 const columns = [
     {
@@ -27,9 +29,9 @@ const columns = [
         key: 'xm'
     },
     {
-        title: 'Epsilon',
-        key: 'check',
-        dataIndex: 'check'
+        title: 'Error',
+        key: 'error',
+        dataIndex: 'error'
     }
 ];
 
@@ -41,82 +43,149 @@ class Bisection extends Component {
         this.state = { XL: null, XR: null, function: "" }
     }
 
+    async getData() {
+
+        let tempData = null
+        await apis.getRootofequation().then(res => { tempData = res.data })
+        this.setState({ apiData: tempData })
+
+        console.log("A",this.state.apiData[0]["function"])
+        console.log("B",this.state.apiData[0]["XL"])
+        console.log("B",this.state.apiData[0]["XR"])
+
+        this.setState({
+            function: this.state.apiData[0]["function"],
+            XL: this.state.apiData[0]["XL"],
+            XR: this.state.apiData[0]["XR"]
+        })
+
+    }
+
+    onClickAPI = e => {
+
+        this.getData()
+    }
+
     fn(x) {
+        console.log("A", this.state.function)
         return math.evaluate(this.state.function, { x: x })
     }
 
-    // clearArray(){
-    //     return this.setState({data : []})
-    // }
-
     result() {
         var fn = this.fn
+        var Test = fn(3)
+        console.log("B", Test)
         var xl = Number(this.state.XL);
         var xr = Number(this.state.XR);
-        //data = this.setState({data : []}) 
         // console.log(fn);
         // console.log(xl);
         // console.log(xr);
-        let data = [] ;
+
+        var data = [];
+        data['xl'] = []
+        data['xr'] = []
+        data['xm'] = []
+        data['error'] = []
 
         var eps = 0.001;
-        var xm;
-        var check = 1;
+        var xmo, xmn;
         var i = 1;
-        //this.setState({data : []})
 
-        console.log("A", data)
+        xmn = (xl + xr) / 2
 
-        while (Math.abs(check) >= eps) {
+        if (fn(xmn) * fn(xr) > 0) {
+            xr = xmn
+        } else {
+            xl = xmn
+        }
 
-            data.push({iteration: i, xl, xr, xm, check : Math.abs(check)})
+        data['xl'][0] = xl
+        data['xr'][0] = xr
+        data['xm'][0] = xmn.toFixed(6)
+        data['error'][0] = Math.abs(error).toFixed(6)
+        this.resultTable(data['xl'], data['xr'], data['xm'], data['error'])
+        this.forceUpdate()
+
+        while (true) {
+            xmo = xmn
+            xmn = (xl + xr) / 2
+
+            if (fn(xmn) * fn(xr) > 0) {
+                xr = xmn
+            } else {
+                xl = xmn
+            }
+
+            var error = Math.abs((xmn - xmo) / xmn)
+
+            if (error <= eps) {
+                break;
+            }
+
+            if (i >= 100) {
+                break;
+            }
+
+            data['xl'][i] = xl
+            data['xr'][i] = xr
+            data['xm'][i] = xmn.toFixed(6)
+            data['error'][i] = Math.abs(error).toFixed(6)
             i++
 
-            xm = (xr + xl) / 2;
-
-            if (fn(xm) * fn(xr) > 0) {
-                xr = xm;
-                check = (xm - xl) / xm;
-            }
-            else {
-                xl = xm;
-                check = (xm - xr) / xm;
-            }
-            //console.log(check, xm.toFixed(6));
+            this.resultTable(data['xl'], data['xr'], data['xm'], data['error'])
+            this.forceUpdate()
+            //console.log(xmn)
         }
-        console.log(data)
+        //console.log(data)
+    }
+
+    resultTable(xl, xr, xm, error) {
+        dataSource = []
+        for (var i = 0; i < xl.length; i++) {
+            dataSource.push({
+                iteration: i + 1,
+                xl: xl[i],
+                xr: xr[i],
+                xm: xm[i],
+                error: error[i],
+            })
+        }
     }
 
     render() {
         return (
             <div>
-                <p> Function </p>
+                <h1 style={{ fontSize: '30px' }}>Bisection</h1>
+                <p> Function : </p>
                 <input onChange={(e) => {
                     this.setState({ function: e.target.value })
+                    this.forceUpdate()
                 }}
                     value={this.state.function}
-                    name="function"
-                    placeholder="Function" /> <br></br>
+                    placeholder="Function" />
 
-                <p> XL </p>
+                <p> XL : </p>
                 <input onChange={(e) => {
                     this.setState({ XL: e.target.value })
+                    this.forceUpdate()
                 }}
                     value={this.state.XL}
-                    name="XL"
-                    placeholder="XL" /> <br></br>
+                    placeholder="XL" />
 
-                <p> XR </p>
+                <p> XR :</p>
                 <input onChange={(e) => {
                     this.setState({ XR: e.target.value })
+                    this.forceUpdate()
                 }}
                     value={this.state.XR}
-                    name="XR"
-                    placeholder="XR" /> <br></br> <br></br>
+                    placeholder="XR" />
+
+                <br></br> <br></br>
 
                 <Button onClick={this.result}> Result </Button> <br></br>
+                <Button onClick={this.onClickAPI}> API </Button> <br></br>
 
-                <Table columns={columns} dataSource={data} />
+                <Table columns={columns} dataSource={dataSource} />
 
             </div>
         );

@@ -4,11 +4,13 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.2",
+    "@nestjs/swagger": "^4.8.0",
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "algebra-latex": "^2.0.3",
     "antd": "^4.15.5",
+    "axios": "^0.21.1",
     "craco-less": "^1.17.1",
     "desmos": "^1.5.4",
     "install": "^0.13.0",
