@@ -21,6 +21,8 @@ import Lagrange from '../Interpolation/Lagrange'
 import Newton from '../Interpolation/Newton'
 import Spline from '../Interpolation/Spline'
 
+import Swagger from '../Swagger';
+
 import React, { Component } from 'react';
 import '../App.less';
 import { Layout, Menu } from 'antd';
@@ -126,6 +128,8 @@ class Navbar extends Component {
                         <Route path="/Lagrange" component={Lagrange} />
                         <Route path="/Newton" component={Newton} />
                         <Route path="/Spline" component={Spline} />
+
+                        <Route path = '/Swagger' component = {Swagger}/>
                     </Switch>
                 </Layout>
             </Router>
