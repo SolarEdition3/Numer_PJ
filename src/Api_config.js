@@ -2,8 +2,8 @@ const config = {
     "swagger": "2.0"
     ,
     "info": {
-        "description": "API Doccument By Swagger. จัดทำหน้านี้ขึ้นเพื่อรวบรวม API ที่ใช้บนเว็บไซต์นี้",
-        "title": "Supawadee Numerical Method"
+        "description": "API Doccument By Swagger.",
+        "title": "Numerical Method"
     }
     ,
     "host": "https://my-json-server.typicode.com/SolarEdition3/Numer_PJ"
@@ -15,7 +15,7 @@ const config = {
                     "API"
                 ]
                 ,
-                "summary": "ค้นหาโจทย์ทั้งหมดในเรื่อง Root of Equation"
+                "summary": "Root of Equation"
                 ,
                 "responses": {
                     "200": {
